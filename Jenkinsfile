@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'M2_HOME'
+        maven 'maven'
     }
     stages {
         stage('SCM checkout') {
@@ -21,15 +21,11 @@ pipeline {
         }
         stage('deploy') {
             steps {
-               deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://65.1.1.251:8080')], contextPath: '/app', war: '**/*.war'
+               deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://13.232.80.142:8080')], contextPath: '/shri', war: '**/*.war'
             }
         }    
     }
-	post {
-          success {
-             mail to: devops.classes.online@gmail.com, subject: ‘The Pipeline success :(‘
-    }
-  }
 }
+
 
 
