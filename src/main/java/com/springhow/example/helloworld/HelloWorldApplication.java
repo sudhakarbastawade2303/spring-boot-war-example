@@ -23,7 +23,7 @@ public class HelloWorldApplication extends SpringBootServletInitializer {
 
     @RequestMapping("/")
     String helloWorld() {
-        return "Hi, welcome to cloud-clasess and  This is demo on CICD";
+        return "Hi, welcome to cloud-clasess, Today we deployed on TOMCAT";
     }
 
 }
