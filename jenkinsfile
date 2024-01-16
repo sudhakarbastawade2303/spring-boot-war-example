@@ -11,16 +11,16 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sudhakarbastawade2303/spring-boot-war-example.git']])
             }
         }
-        # stage('Static Code Analysis') {
-         # environment {
-          #      SONAR_URL = "http://54.237.75.66:9000"
-                  }
-         # steps {
-         #       withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
-         #       sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-         #   }
-        #  }
-      #  }        
+        #stage('Static Code Analysis') {
+         #environment {
+                #SONAR_URL = "http://54.237.75.66:9000"
+                 #}
+          #steps {
+               #withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
+                #sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+            #}
+          #}
+        #}        
     stage('building-source-code') {
             steps {
                   sh 'mvn clean package'
