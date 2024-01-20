@@ -12,6 +12,16 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sudhakarbastawade2303/spring-boot-war-example.git']])
             }
         }
+        stage('Static Code Analysis') {
+             environment {
+                SONAR_URL = "http://65.2.11.163:9000"
+                }
+              steps {
+                   withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
+                   sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+            }
+          }
+        }    
         stage('Build war file'){
             steps{
                 script{
@@ -24,9 +34,9 @@ pipeline {
                 script{
                     withCredentials([string(credentialsId: 'dockerhub', variable: 'docker_password')]) {
                              sh '''
-                                docker build -t sudhakarbastawade/demo:${VERSION} .
+                                docker build -t sudhakarbastawade/testapp:${VERSION} .
                                 docker login -u sudhakarbastawade -p $docker_password
-                                docker push sudhakarbastawade/demo:${VERSION}
+                                docker push sudhakarbastawade/testapp:${VERSION}
                                 docker rmi sudhakarbastawade/demo:${VERSION}
                             '''
                     }
