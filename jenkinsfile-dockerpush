@@ -35,9 +35,9 @@ pipeline {
                     withCredentials([string(credentialsId: 'dockerhub', variable: 'docker_password')]) {
                              sh '''
                                 docker build -t sudhakarbastawade/testapp:${VERSION} .
-                                docker login -u sudhakarbastawade -p $docker_password
+                                docker login -u sudhakarbastawade --password-stdin $docker_password
                                 docker push sudhakarbastawade/testapp:${VERSION}
-                                docker rmi sudhakarbastawade/demo:${VERSION}
+                                docker rmi sudhakarbastawade/testapp:${VERSION}
                             '''
                     }
                 }
