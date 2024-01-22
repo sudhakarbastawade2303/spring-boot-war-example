@@ -9,12 +9,12 @@ pipeline {
     stages {
         stage('SCM checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sudhakarbastawade2303/spring-boot-war-example.git']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mayurpwr7/spring-boot-war-example.git']])
             }
         }
         stage('Static Code Analysis') {
              environment {
-                SONAR_URL = "http://13.201.194.159:9000/project"
+                SONAR_URL = "http://13.201.194.159:9000/about"
                 }
               steps {
                    withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
