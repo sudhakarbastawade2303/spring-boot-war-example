@@ -34,10 +34,10 @@ pipeline {
                 script{
                     withCredentials([string(credentialsId: 'dockerhub', variable: 'docker_password')]) {
                              sh '''
-                                docker build --t mayurpwr7/:${VERSION} .
-                                docker login -u mayurpwr7 -p ${docker_password}
-                                docker push mayurpwr7/demo:${VERSION}
-                                docker rmi mayurpwr7/:${VERSION}
+                                docker build -t sudhakarbastawade/testapp:${VERSION} .
+                                docker login -u sudhakarbastawade -p ${docker_password}
+                                docker push sudhakarbastawade/testapp:${VERSION}
+                                docker rmi sudhakarbastawade/testapp:${VERSION}
                             '''
                     }
                 }
