@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-       maven 'M2_HOME'
+       maven 'maven'
     }
     environment{
         VERSION = "${env.BUILD_ID}"
@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('pull source code') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sudhakarbastawade2303/spring-boot-war-example.git']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mayurpwr7/spring-boot-war-example.git']])
             }
         }
         stage('Build') {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Static Code Analysis') {
             environment {
-            SONAR_URL = "http://52.205.251.40:9000"
+            SONAR_URL = "http://54.81.45.185:9000"
             }
             steps {
                 script {
