@@ -13,10 +13,10 @@ pipeline {
         }
         stage('Static Code Analysis') {
              environment {
-                SONAR_URL = "http://54.81.45.185:9000"
+                SONAR_URL = "http://13.127.239.61:9000/"
                 }
               steps {
-                   withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
+                   withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
             }
           }
@@ -28,7 +28,7 @@ pipeline {
         }
  stage('deploy to tomcat') {
             steps {
-                  deploy adapters: [tomcat9(credentialsId: 'tomcat9server', path: '', url: 'http://18.212.117.158:8080')], contextPath: '/app', war: '**/*.war'
+                  deploy adapters: [tomcat9(credentialsId: 'tomcat9server', path: '', url: 'http://13.233.146.242:8080')], contextPath: '/app', war: '**/*.war'
             }
         }
     }
