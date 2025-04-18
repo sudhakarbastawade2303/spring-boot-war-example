@@ -1,35 +1,52 @@
 pipeline {
     agent any
-   
+
     tools {
-        maven 'maven'
+        maven 'maven' // Ensure 'maven' is configured under Global Tool Configuration
+    }
+
+    environment {
+        SONAR_URL = "http://13.201.64.90:9000" // SonarQube server URL
     }
 
     stages {
-        stage('git-checkout') {
+        stage('Git Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mayurpwr7/spring-boot-war-example.git']])
+                checkout scmGit(
+                    branches: [[name: '*/master']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/mayurpwr7/spring-boot-war-example.git']]
+                )
             }
         }
+
         stage('Static Code Analysis') {
-             environment {
-                SONAR_URL = "http://13.201.64.90:9000"
+            steps {
+                withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
+                    sh "mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=$SONAR_URL"
                 }
-              steps {
-                   withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
-                   sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-            }
-          }
-        }        
-    stage('building-source-code') {
-            steps { 
-                  sh 'mvn clean package'
             }
         }
- stage('deploy to tomcat') {
+
+        stage('Build Source Code') {
             steps {
-                 deploy adapters: [tomcat9(credentialsId: 'tomcat10', path: '', url: 'http://13.126.28.63:8080/')], contextPath: '/app', war: '**/*.war'
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+                deploy adapters: [
+                    tomcat9(
+                        credentialsId: 'tomcat10', // Jenkins credentials with Tomcat user/pass
+                        path: '',
+                        url: 'http://13.126.28.63:8080/'
+                    )
+                ],
+                contextPath: '/app',
+                war: '**/*.war'
             }
         }
     }
 }
+
