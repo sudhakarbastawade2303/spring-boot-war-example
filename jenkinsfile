@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        SONAR_URL = "http://13.201.64.90:9000" // SonarQube server URL
+        SONAR_URL = "http://43.205.236.15:9000" // SonarQube server URL
     }
 
     stages {
@@ -40,7 +40,7 @@ pipeline {
                     tomcat9(
                         credentialsId: 'tomcat10', // Jenkins credentials with Tomcat user/pass
                         path: '',
-                        url: 'http://13.126.28.63:8080/'
+                        url: 'http://13.127.212.77:8080'
                     )
                 ],
                 contextPath: '/app',
